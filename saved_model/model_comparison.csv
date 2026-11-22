@@ -1,0 +1,5 @@
+Model,Accuracy,Precision (Weighted),Recall (Weighted),F1-Score (Weighted),F1-Score (Macro)
+DistilBERT,0.8537,0.8573,0.8537,0.8547,0.8425
+GRU,0.8357,0.8406,0.8357,0.8366,0.8239
+LSTM,0.835,0.8411,0.835,0.836,0.8232
+SimpleRNN,0.6907,0.7125,0.6907,0.6958,0.6403

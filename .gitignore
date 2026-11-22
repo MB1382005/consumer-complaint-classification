@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.zip
+*.keras
+*.h5
+saved_model/transformer/*.safetensors
+saved_model/transformer/*.bin
+transformer_checkpoints/
+.ipynb_checkpoints/

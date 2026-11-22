@@ -1,0 +1,11 @@
+                     precision    recall  f1-score   support
+
+        credit_card       0.78      0.85      0.81       723
+   credit_reporting       0.91      0.86      0.89      2711
+    debt_collection       0.76      0.83      0.79      1015
+mortgages_and_loans       0.85      0.86      0.85       902
+     retail_banking       0.88      0.86      0.87       649
+
+           accuracy                           0.85      6000
+          macro avg       0.84      0.85      0.84      6000
+       weighted avg       0.86      0.85      0.85      6000

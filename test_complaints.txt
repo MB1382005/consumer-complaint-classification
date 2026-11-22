@@ -1,0 +1,14 @@
+1. [credit_reporting]
+Equifax is still showing a closed account as delinquent on my credit history even though I paid it off three years ago.
+
+2. [debt_collection]
+A debt collector threatened to garnish my wages over a phone bill I do not owe and refused to send written verification.
+
+3. [credit_card]
+I was billed twice for the same hotel stay on my Visa credit card and the issuer closed my dispute without investigating.
+
+4. [mortgages_and_loans]
+My auto loan lender applied my extra principal payment toward next month's interest instead of reducing the loan balance.
+
+5. [retail_banking]
+My bank froze my savings account for two weeks after a normal mobile check deposit and gave me no reason.

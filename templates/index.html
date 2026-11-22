@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClearRoute — Consumer Complaint Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Left Slim Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand-mark">CR</div>
+        <nav class="nav-icons" aria-label="Primary">
+          <button class="nav-btn active" data-view="classify" title="Classify Complaint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>
+          </button>
+          <button class="nav-btn" data-view="benchmark" title="Model Benchmark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          </button>
+          <button class="nav-btn" data-view="departments" title="5 Departments">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg>
+          </button>
+        </nav>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="status-dot-wrap" id="modelStatusBadge" title="Model Status">
+          <span class="status-dot"></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Stage -->
+    <main class="stage">
+      <!-- VIEW 1: CLASSIFY -->
+      <section class="view active" id="view-classify">
+        <div class="hero">
+          <div class="orb-wrap" aria-hidden="true">
+            <div class="orb">
+              <div class="orb-inner"></div>
+            </div>
+          </div>
+          <p class="hero-kicker">Consumer Complaint Intelligence</p>
+          <h1 class="hero-title">How can I route this complaint?</h1>
+          <p class="hero-subtitle">
+            Paste a customer complaint narrative to predict its banking department, routing queue, and confidence score.
+          </p>
+        </div>
+
+        <!-- Prompt / Intake Container -->
+        <div class="prompt-shell">
+          <div class="prompt-top-bar">
+            <span class="top-bar-left">
+              <span class="spark-dot"></span>
+              <span id="activeModelLabel">DistilBERT Transformer · 85.4% Test Accuracy</span>
+            </span>
+            <span class="top-bar-right">5 Banking Queues</span>
+          </div>
+
+          <div class="prompt-body">
+            <textarea
+              id="complaintInput"
+              rows="3"
+              placeholder="Paste or type a customer complaint narrative..."
+            ></textarea>
+            <div class="prompt-actions">
+              <div class="action-pills">
+                <button type="button" class="pill-btn" id="clearBtn">Clear</button>
+                <button type="button" class="pill-btn" id="randomSampleBtn">Load Sample</button>
+              </div>
+              <button type="button" class="send-btn" id="submitBtn" title="Classify Complaint">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Scenario Cards -->
+        <div class="quick-grid" id="quickCards">
+          <button type="button" class="quick-card" data-sample="There is a mistake on my credit report and the bureau refused to fix it.">
+            <div class="quick-title">Credit Report Error</div>
+            <div class="quick-desc">Dispute an inaccurate account or inquiry on a credit file.</div>
+          </button>
+          <button type="button" class="quick-card" data-sample="A debt collector keeps harassing me daily about a bill I already paid.">
+            <div class="quick-title">Debt Collection</div>
+            <div class="quick-desc">Report repeated calls or disputed third-party collection claims.</div>
+          </button>
+          <button type="button" class="quick-card" data-sample="My credit card has an unauthorized charge and an unexpected late fee.">
+            <div class="quick-title">Card &amp; Billing</div>
+            <div class="quick-desc">Flag unauthorized card transactions, fees, or APR disputes.</div>
+          </button>
+        </div>
+
+        <!-- Prediction Result Card -->
+        <div class="result-card hidden" id="resultCard">
+          <div class="result-header">
+            <div>
+              <span class="result-label">ASSIGNED DEPARTMENT</span>
+              <h2 class="result-dept" id="resDept">—</h2>
+              <p class="result-desc" id="resDesc">—</p>
+            </div>
+            <div class="result-badges">
+              <span class="route-pill" id="resRouteBadge">AUTO-ROUTE</span>
+              <div class="conf-big" id="resConf">0%</div>
+            </div>
+          </div>
+
+          <div class="result-meta">
+            <div class="meta-box">
+              <span class="meta-k">Label</span>
+              <span class="meta-v" id="resLabel">—</span>
+            </div>
+            <div class="meta-box">
+              <span class="meta-k">Queue</span>
+              <span class="meta-v" id="resQueue">—</span>
+            </div>
+            <div class="meta-box">
+              <span class="meta-k">Target SLA</span>
+              <span class="meta-v" id="resSla">—</span>
+            </div>
+          </div>
+
+          <div class="prob-section">
+            <div class="result-label">CLASS PROBABILITY BREAKDOWN</div>
+            <div class="prob-bars" id="probBars"></div>
+          </div>
+        </div>
+
+        <div class="error-banner hidden" id="errorBanner"></div>
+      </section>
+
+      <!-- VIEW 2: BENCHMARK -->
+      <section class="view" id="view-benchmark">
+        <div class="panel-header">
+          <p class="hero-kicker">Evaluation Summary</p>
+          <h2 class="panel-title">4-Model Architecture Benchmark</h2>
+          <p class="hero-subtitle">Evaluated on 6,000 stratified test complaints with balanced class weighting.</p>
+        </div>
+        <div class="glass-panel">
+          <table class="bench-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Accuracy</th>
+                <th>Precision (W)</th>
+                <th>Recall (W)</th>
+                <th>F1 (Weighted)</th>
+                <th>F1 (Macro)</th>
+              </tr>
+            </thead>
+            <tbody id="benchmarkBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VIEW 3: DEPARTMENTS -->
+      <section class="view" id="view-departments">
+        <div class="panel-header">
+          <p class="hero-kicker">Routing Directory</p>
+          <h2 class="panel-title">5 Supported Banking Departments</h2>
+          <p class="hero-subtitle">Target classes predicted by the fine-tuned DistilBERT classifier.</p>
+        </div>
+        <div class="dept-grid" id="deptGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
